@@ -1,17 +1,19 @@
-## myapp
+## miniflux
 
 > my awesome npm package
+
+https://miniflux.app/docs/api.html
 
 ### Installation
 
 ```bash
-$ npm install myapp
+$ npm install miniflux
 ```
 
 ### Example
 
 ```js
-const myapp = require('myapp');
+const miniflux = require('miniflux');
 
 // your code here
 
