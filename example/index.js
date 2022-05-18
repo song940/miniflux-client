@@ -1,11 +1,10 @@
-const Miniflux = require('..');
-
+import Miniflux from '../index.js';
 
 const miniflux = new Miniflux({
   username: 'song940',
   password: 'lsong940',
   token: '',
-  api: `https://reader.lsong.me`,
+  endpoint: `http://read.lsong.one:8888`,
 });
 
 (async () => {

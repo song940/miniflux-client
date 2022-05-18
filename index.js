@@ -1,7 +1,7 @@
-const http = require('http');
-const https = require('https');
-const assert = require('assert');
-const Stream = require('stream');
+import http from 'http';
+import https from 'https';
+import assert from 'assert';
+import Stream from 'stream';
 
 const request = (method, url, payload, headers) => {
   const client = url.startsWith('https://') ? https : http;
@@ -39,9 +39,9 @@ const ensureStatusCode = expected => {
   };
 };
 
-class Miniflux {
-  constructor({ api, token, username, password }) {
-    this.api = api;
+export class Miniflux {
+  constructor({ endpoint, token, username, password }) {
+    this.api = endpoint;
     this.token = token;
     this.username = username;
     this.password = password;
@@ -159,5 +159,4 @@ class Miniflux {
   }
 }
 
-
-module.exports = Miniflux;
+export default Miniflux; 

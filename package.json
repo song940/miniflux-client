@@ -1,8 +1,9 @@
 {
-  "name": "miniflux",
+  "name": "@song940/miniflux",
   "version": "0.0.0",
-  "description": "my awesome npm package",
+  "description": "Miniflux Client API",
   "main": "index.js",
+  "type": "module",
   "bin": "bin/index.js",
   "scripts": {
     "test": "node test"

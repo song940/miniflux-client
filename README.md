@@ -1,22 +1,39 @@
 ## miniflux
 
-> my awesome npm package
+> Miniflux Client API
 
 https://miniflux.app/docs/api.html
 
 ### Installation
 
 ```bash
-$ npm install miniflux
+$ npm i @song940/miniflux
 ```
 
 ### Example
 
 ```js
-const miniflux = require('miniflux');
+import Miniflux from '@song940/miniflux';
 
-// your code here
+const miniflux = new Miniflux({
+  username: '',
+  password: '',
+  token: '',
+  endpoint: `https://read.lsong.me`,
+});
 
+(async () => {
+
+  const me = await miniflux.me();
+  console.log(me);
+
+  const feeds = await miniflux.feeds();
+  console.log(feeds);
+
+  const version = await miniflux.version();
+  console.log(version);
+
+})();
 ```
 
 ### Contributing
