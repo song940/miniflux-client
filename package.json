@@ -1,6 +1,6 @@
 {
   "name": "@song940/miniflux",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Miniflux Client API",
   "main": "index.js",
   "type": "module",
@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/song940/node-miniflux-client/issues"
   },
-  "homepage": "https://github.com/song940/node-miniflux-client#readme"
+  "homepage": "https://github.com/song940/node-miniflux-client#readme",
+  "dependencies": {
+    "isomorphic-fetch": "*"
+  }
 }

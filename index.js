@@ -1,43 +1,4 @@
-import http from 'http';
-import https from 'https';
-import assert from 'assert';
-import Stream from 'stream';
-
-const request = (method, url, payload, headers) => {
-  const client = url.startsWith('https://') ? https : http;
-  return new Promise((resolve, reject) => {
-    const req = client.request(url, {
-      method,
-      headers,
-    }, resolve);
-    req.once('error', reject);
-    if (payload instanceof Stream) {
-      payload.pipe(req);
-    } else {
-      req.end(payload);
-    }
-  });
-};
-
-const readStream = stream => {
-  const buffer = [];
-  return new Promise((resolve, reject) => {
-    stream
-      .on('error', reject)
-      .on('data', chunk => buffer.push(chunk))
-      .on('end', () => resolve(Buffer.concat(buffer)))
-  });
-};
-
-const ensureStatusCode = expected => {
-  if (!Array.isArray(expected))
-    expected = [expected];
-  return res => {
-    const { statusCode } = res;
-    assert.ok(expected.includes(statusCode), `status code must be "${expected}" but actually "${statusCode}"`);
-    return res;
-  };
-};
+import 'isomorphic-fetch';
 
 export class Miniflux {
   constructor({ endpoint, token, username, password }) {
@@ -46,7 +7,7 @@ export class Miniflux {
     this.username = username;
     this.password = password;
   }
-  request(method, path, payload) {
+  request(method, path, body) {
     const headers = {};
     const { api, token, username, password } = this;
     // https://miniflux.app/docs/api.html#authentication
@@ -55,18 +16,18 @@ export class Miniflux {
     } else {
       headers['Authorization'] = `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
     }
-    return request(method, api + path, payload, headers);
+    return fetch(api + path, {
+      method,
+      headers,
+      body: body && JSON.stringify(body),
+    });
   }
   get(path) {
     return this.request('GET', path);
   }
-  getJSON(path) {
-    return Promise
-      .resolve()
-      .then(() => this.get(path))
-      .then(ensureStatusCode(200))
-      .then(readStream)
-      .then(JSON.parse)
+  async getJSON(path) {
+    const response = await this.get(path);
+    return response.json();
   }
   post(path, payload) {
     return this.request('POST', path, payload);
@@ -149,14 +110,11 @@ export class Miniflux {
   healthcheck() {
     return this.get('/v1/healthcheck');
   }
-  version() {
-    return Promise
-      .resolve()
-      .then(() => this.get('/version'))
-      .then(ensureStatusCode(200))
-      .then(readStream)
-      .then(String)
+  async version() {
+    const response = await this.get('/version');
+    if(response.status !== 200) throw new Error();
+    return response.text();
   }
 }
 
-export default Miniflux; 
+export default Miniflux;
