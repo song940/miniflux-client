@@ -15,7 +15,7 @@ test('first test', () => {
 
 test('miniflux#version', async () => {
   const v = await miniflux.version();
-  assert.equal(v, '2.0.34');
+  assert.equal(v, 'latest');
 });
 
 test('miniflux#me', async () => {

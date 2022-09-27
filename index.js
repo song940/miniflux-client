@@ -14,7 +14,7 @@ export class Miniflux {
     if (token) {
       headers['X-Auth-Token'] = token;
     } else {
-      headers['Authorization'] = `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
+      headers['Authorization'] = `Basic ${btoa(`${username}:${password}`)}`;
     }
     return fetch(api + path, {
       method,
