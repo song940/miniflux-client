@@ -1,6 +1,6 @@
 {
   "name": "@song940/miniflux",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Miniflux Client API",
   "main": "index.js",
   "type": "module",
